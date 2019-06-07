@@ -25,10 +25,11 @@ const getDeepArrayLength = (json, holder = 0) => {
 
   // base condition
   if (!key) {
+    console.log(`\nnot key : returning`)
     return 0
   }
 
-  console.log(`${key} - ${Array.isArray(value)
+  console.log(`${key}\n\t${Array.isArray(value)
     ? 'array'
     : 'obj'}`)
 
@@ -37,7 +38,13 @@ const getDeepArrayLength = (json, holder = 0) => {
     ? {...json, ...value}
     : json
 
-  return getDeepArrayLength(recurse, holder)
+  if (Array.isArray(value)) {
+    console.log(`\t${value}`)
+  }
+
+  console.log(`\tholder: ${holder}`)
+
+  return getDeepArrayLength(recurse, holder + 1)
 }
 
 console.log(getDeepArrayLength(things))
