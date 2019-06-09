@@ -16,22 +16,18 @@ function isObject(obj) {
   return obj && typeof obj === 'object' && obj.constructor === Object
 }
 
-const getDeepArrayLength = (json, holder = 0) => {
+const getDeepArrayLength = (json, acc = 0) => {
   const [ key ] = Object.keys(json)
   const value = json[key]
 
-  // make recursion available
+  // make recursion available (by popping off the current key/value)
   delete json[key]
 
   // base condition
+  // this will return the acumulated value on the `acc` variable ;)
   if (!key) {
-    console.log(`\nnot key : returning`)
-    return 0
+    return acc
   }
-
-  console.log(`${key}\n\t${Array.isArray(value)
-    ? 'array'
-    : 'obj'}`)
 
   // flatten current object with current value (only if it is an object)
   const recurse = isObject(value)
@@ -39,12 +35,10 @@ const getDeepArrayLength = (json, holder = 0) => {
     : json
 
   if (Array.isArray(value)) {
-    console.log(`\t${value}`)
+    acc+=value.length
   }
 
-  console.log(`\tholder: ${holder}`)
-
-  return getDeepArrayLength(recurse, holder + 1)
+  return getDeepArrayLength(recurse, acc)
 }
 
 console.log(getDeepArrayLength(things))
